@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4">
+            <h3 class="text-center mb-4 text-primary">
+                🩺 Write Prescription
+            </h3>
+
+            <div class="mb-4 border rounded-3 p-3 bg-light">
+                <h5>Patient Details:</h5>
+                <p><strong>Name:</strong> {{ patient.name }}</p>
+                <p><strong>Email:</strong> {{ patient.email }}</p>
+                <p><strong>Problem:</strong> {{ patient.problem if patient.problem else 'No details provided' }}</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('doctor.prescribe', patient_id=patient._id) }}">
+                <div class="mb-3">
+                    <label for="medicine" class="form-label">Medicine Name</label>
+                    <input type="text" class="form-control" id="medicine" name="medicine" 
+                           placeholder="Enter medicine name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="dosage" class="form-label">Dosage</label>
+                    <input type="text" class="form-control" id="dosage" name="dosage" 
+                           placeholder="e.g., 1 tablet twice a day" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="instructions" class="form-label">Additional Instructions</label>
+                    <textarea class="form-control" id="instructions" name="instructions" 
+                              rows="3" placeholder="Enter any special advice or notes"></textarea>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success rounded-pill px-4">
+                        💊 Save Prescription
+                    </button>
+                    <a href="{{ url_for('doctor.patients') }}" 
+                       class="btn btn-secondary rounded-pill px-4 ms-2">
+                       ⬅️ Back to Patients
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

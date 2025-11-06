@@ -1,0 +1,72 @@
+{% extends "doctor/dashboard.html" %}
+{% block title %}Doctor Profile{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('doctor.dashboard') }}" class="back-btn">🔙 Back to Dashboard</a>
+<form method="post">
+  <div class="card">
+    <h3>Doctor Profile</h3>
+
+    <!-- Basic Info -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px">
+      <div>
+        <label>First Name</label>
+        <input class="form-control" name="first_name" placeholder="First name"
+               value="{{ user.profile.first_name if user and user.profile else '' }}">
+      </div>
+      <div>
+        <label>Last Name</label>
+        <input class="form-control" name="last_name" placeholder="Last name"
+               value="{{ user.profile.last_name if user and user.profile else '' }}">
+      </div>
+      <div>
+        <label>Email (Login)</label>
+        <input class="form-control" value="{{ user.email }}" disabled>
+      </div>
+      <div>
+        <label>Phone</label>
+        <input class="form-control" name="phone" placeholder="Phone"
+               value="{{ user.profile.phone if user and user.profile else '' }}">
+      </div>
+    </div>
+
+    <!-- Professional Info -->
+    <h4 style="margin-top:20px">Professional Info</h4>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px">
+      <div>
+        <label>Specialty</label>
+        <input class="form-control" name="specialty" placeholder="Specialty"
+               value="{{ user.profile.specialty if user and user.profile else '' }}">
+      </div>
+      <div>
+        <label>Department</label>
+        <input class="form-control" name="department" placeholder="Department"
+               value="{{ user.profile.department if user and user.profile else '' }}">
+      </div>
+      <div>
+        <label>Years of Experience</label>
+        <input class="form-control" type="number" name="experience" placeholder="Experience (years)"
+               value="{{ user.profile.experience if user and user.profile else '' }}">
+      </div>
+      <div>
+        <label>Profile Picture URL</label>
+        <input class="form-control" name="profile_pic" placeholder="https://example.com/photo.jpg"
+               value="{{ user.profile.profile_pic if user and user.profile else '' }}">
+      </div>
+    </div>
+
+    <!-- Address -->
+    <h4 style="margin-top:20px">Address</h4>
+    <textarea class="form-control" name="address" rows="2" placeholder="Enter address">{{ user.profile.address if user and user.profile else '' }}</textarea>
+
+    <!-- Bio -->
+    <h4 style="margin-top:20px">About Me</h4>
+    <textarea class="form-control" name="bio" rows="4" placeholder="Write a short summary about yourself">{{ user.profile.bio if user and user.profile else '' }}</textarea>
+
+    <!-- Save -->
+    <div style="margin-top:20px; text-align:right">
+      <button class="btn btn-primary">💾 Save Profile</button>
+    </div>
+  </div>
+</form>
+{% endblock %}

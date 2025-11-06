@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Nurse Dashboard{% endblock %}
+{% block content %}
+<div class="dashboard container">
+  <aside class="sidebar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" class="profile-avatar">
+      <div>
+        <div><strong>{{ current_user.username }}</strong></div>
+        <div class="small-muted">Nurse</div>
+      </div>
+    </div>
+    <hr>
+    <a class="nav-item" href="{{ url_for('nurse.dashboard') }}">Dashboard</a>
+    <a class="nav-item" href="{{ url_for('nurse.profile') }}">Profile</a>
+    <a class="nav-item" href="{{ url_for('nurse.schedule') }}">Schedule</a>
+    <a class="nav-item" href="{{ url_for('nurse.leave') }}">Leave Requests</a>
+    <a class="nav-item" href="{{ url_for('nurse.salary') }}">Salary</a>
+  </aside>
+
+  <main class="content">
+    <div style="text-align:right; margin-bottom:15px;">
+      <a href="{{ url_for('auth.login') }}" class="btn btn-outline-danger">
+        ← Back to Login
+      </a>
+    </div>
+    <h3>Overview</h3>
+
+    <div class="card">
+      <h4>Assigned Shifts</h4>
+      {% if schedule %}
+        <ul>
+          {% for shift in schedule %}
+            <li>{{ shift.date }} - {{ shift.time }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No shifts assigned yet.</p>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h4>Patient Assignments</h4>
+      {% if assignments %}
+        <ul>
+          {% for a in assignments %}
+            <li>{{ a.patient_name }} ({{ a.condition }})</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No patient assignments yet.</p>
+      {% endif %}
+    </div>
+  </main>
+</div>
+{% endblock %}

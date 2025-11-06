@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}My Profile{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <a href="{{ url_for('patient.dashboard') }}" class="back-btn">⬅ Back to Dashboard</a>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, msg in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ msg }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div class="card shadow-lg border-0 rounded-4">
+    <div class="card-header bg-primary text-white">
+      <h3 class="mb-0">My Profile</h3>
+    </div>
+    <div class="card-body p-4">
+      <form method="POST" action="{{ url_for('patient.profile') }}">
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input type="text" name="name" class="form-control" value="{{ patient.name if patient else '' }}" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" name="email" class="form-control" value="{{ patient.email if patient else '' }}" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Phone</label>
+          <input type="text" name="phone" class="form-control" value="{{ patient.phone if patient else '' }}">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Address</label>
+          <textarea name="address" class="form-control" rows="3">{{ patient.address if patient else '' }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary px-4">Update Profile</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

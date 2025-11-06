@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <!-- 🔙 Back button -->
+    <a href="{{ url_for('doctor.dashboard') }}" class="btn btn-secondary mb-3">
+        ⬅ Back to Dashboard
+    </a>
+
+    <h2 class="mb-4 text-center">Accepted Patients</h2>
+
+    {% if patients and patients|length > 0 %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Email</th>
+                        <th>Problem</th>
+                        <th>Appointment Date & Time</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in patients %}
+                    <tr>
+                        <td>{{ patient.name or 'N/A' }}</td>
+                        <td>{{ patient.email or 'N/A' }}</td>
+                        <td>{{ patient.problem or 'N/A' }}</td>
+                        <td>
+                            {% if patient.datetime %}
+                                {{ patient.datetime.strftime('%Y-%m-%d %H:%M') }}
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if patient.status %}
+                                {% if patient.status|lower == 'accepted' %}
+                                    <span class="badge bg-success">Accepted</span>
+                                {% elif patient.status|lower == 'pending' %}
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                {% elif patient.status|lower == 'rejected' %}
+                                    <span class="badge bg-danger">Rejected</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">{{ patient.status }}</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="badge bg-secondary">Unknown</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if patient.status and patient.status|lower == 'accepted' %}
+                                <a href="{{ url_for('doctor.add_prescription', patient_id=patient.id) }}" 
+                                   class="btn btn-primary btn-sm">
+                                   Add Prescription
+                                </a>
+                            {% else %}
+                                <button class="btn btn-secondary btn-sm" disabled>Not Allowed</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center">
+            No patients are accepted yet.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

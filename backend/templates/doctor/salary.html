@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Salary{% endblock %}
+{% block content %}
+<a href="{{ url_for('doctor.dashboard') }}" class="back-btn">🔙 Back to Dashboard</a>
+<div class="card">
+  <h3>My Salary</h3>
+  <p><strong>Amount:</strong> {{ salary }}</p>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{
+  "name": "hospital-management-system",
+  "version": "1.0.0",
+  "description": "Corporate-grade Hospital Management System with Flask and MongoDB",
+  "main": "run.py",
+  "scripts": {
+    "start": "python run.py"
+  },
+  "author": "Your Name",
+  "license": "ISC",
+  "dependencies": {}
+}

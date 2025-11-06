@@ -1,0 +1,49 @@
+<header class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <div class="container-fluid">
+    <!-- Logo -->
+    <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.index') }}">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Hospital Logo" height="45" class="me-2">
+      <span class="fw-bold text-primary">GlobalCare Hospital</span>
+    </a>
+
+    <!-- Toggle for mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Nav Items -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Doctors</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Patients</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+
+        {% if current_user.is_authenticated %}
+          {% if current_user.role == 'doctor' %}
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('doctor.dashboard') }}">Doctor Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('doctor.profile') }}">Profile</a></li>
+          {% elif current_user.role == 'patient' %}
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('patient.dashboard') }}">Patient Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('patient.profile') }}">Profile</a></li>
+          {% elif current_user.role == 'admin' %}
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.dashboard') }}">Admin Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.profile') }}">Profile</a></li>
+          {% elif current_user.role == 'nurse' %}
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('nurse.dashboard') }}">Nurse Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('nurse.profile') }}">Profile</a></li>
+          {% elif current_user.role == 'receptionist' %}
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('receptionist.dashboard') }}">Receptionist Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('receptionist.profile') }}">Profile</a></li>
+          {% endif %}
+          <li class="nav-item ms-lg-3">
+            <a href="{{ url_for('auth.logout') }}" class="btn btn-sm btn-danger">Logout</a>
+          </li>
+        {% else %}
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Register</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</header>

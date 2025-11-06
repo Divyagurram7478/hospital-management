@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Prescriptions{% endblock %}
+{% block content %}
+
+<a href="{{ url_for('doctor.dashboard') }}" class="back-btn">🔙 Back to Dashboard</a>
+
+<div class="card">
+  <h3>💊 My Prescriptions</h3>
+
+  {% if prescriptions %}
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Patient</th>
+        <th>Date</th>
+        <th>Prescription</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in prescriptions %}
+      <tr>
+        <td>{{ p.patient_name }}</td>
+        <td>{{ p.date.strftime("%Y-%m-%d %H:%M") if p.date else '' }}</td>
+        <td>{{ p.details }}</td>
+        <td>
+          <a href="{{ url_for('doctor.edit_prescription', pres_id=p._id) }}" class="btn btn-warning btn-sm">✏️ Edit</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p>No prescriptions found.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

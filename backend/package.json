@@ -1,0 +1,11 @@
+{
+  "name": "hospital-management-system",
+  "version": "1.0.0",
+  "description": "Frontend tooling for hospital management system (static assets)",
+  "scripts": {
+    "start": "echo \"Static assets served by Flask\"",
+    "build": "echo \"No build step — CSS/JS are static\""
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

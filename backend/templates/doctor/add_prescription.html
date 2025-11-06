@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">🩺 Add Prescription for {{ patient.name }}</h2>
+
+    <div class="card shadow-lg p-4 border-0 rounded-4">
+        <form action="{{ url_for('doctor.save_prescription', patient_id=patient._id) }}" method="POST">
+            
+            <!-- Diagnosis -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Diagnosis</label>
+                <input type="text" class="form-control" name="diagnosis" placeholder="Enter diagnosis" required>
+            </div>
+
+            <!-- Medicines -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Medicines</label>
+                <textarea class="form-control" name="medicines" rows="3" placeholder="Enter medicines with dosage (e.g., Paracetamol - 500mg, twice a day)" required></textarea>
+            </div>
+
+            <!-- Instructions -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Instructions</label>
+                <textarea class="form-control" name="instructions" rows="3" placeholder="Enter special instructions (e.g., after food, morning only)" required></textarea>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{{ url_for('doctor.patients') }}" class="btn btn-secondary">
+                    ← Back
+                </a>
+                <button type="submit" class="btn btn-success">
+                    💊 Save Prescription
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

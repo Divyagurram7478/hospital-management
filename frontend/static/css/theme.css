@@ -1,0 +1,13 @@
+/* Role-specific accenting and small polish */
+.sidebar .role-badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:10px;
+  font-weight:700;
+  color:#fff;
+}
+.role-admin{ background:#0B6E4F }
+.role-doctor{ background:#0b4d9a }
+.role-patient{ background:#8a3ffc }
+.role-nurse{ background:#ff7a59 }
+.role-reception{ background:#f4b400 }

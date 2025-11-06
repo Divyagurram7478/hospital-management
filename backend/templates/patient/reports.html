@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}My Reports{% endblock %}
+{% block content %}
+<div class="dashboard-container">
+  <a href="{{ url_for('patient.dashboard') }}" class="back-btn">⬅ Back to Dashboard</a>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, msg in messages %}
+        <div class="alert alert-{{ category }}">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <h2>My Reports</h2>
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Report Type</th>
+        <th>File</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for report in reports %}
+      <tr>
+        <td>{{ report.date }}</td>
+        <td>{{ report.report_type }}</td>
+        <td>
+          {% if report.file_url %}
+            <a href="{{ report.file_url }}" target="_blank">Download</a>
+          {% else %}
+            No file
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if not reports %}
+    <p class="small-muted">No reports uploaded yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}My Billing{% endblock %}
+{% block content %}
+<div class="dashboard-container">
+  <!-- Back Button -->
+  <a href="{{ url_for('patient.dashboard') }}" class="back-btn">⬅ Back to Dashboard</a>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, msg in messages %}
+        <div class="alert alert-{{ category }}">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <h2>💳 My Billing Info</h2>
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Doctor</th>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for bill in bills %}
+      <tr>
+        <td>{{ bill.date }}</td>
+        <td>{{ bill.doctor_name }}</td>
+        <td>{{ bill.description }}</td>
+        <td>₹{{ bill.amount }}</td>
+        <td>
+          {% if bill.status == 'Paid' %}
+            <span class="badge bg-success">Paid</span>
+          {% else %}
+            <span class="badge bg-warning text-dark">Unpaid</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if bill.status == 'Unpaid' %}
+            <form method="POST" action="{{ url_for('patient.pay_bill', bill_id=bill._id) }}">
+              <button type="submit" class="btn btn-primary btn-sm">Pay Now</button>
+            </form>
+          {% else %}
+            <button class="btn btn-secondary btn-sm" disabled>Paid</button>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if not bills %}
+    <p class="small-muted">No billing records available.</p>
+  {% endif %}
+</div>
+{% endblock %}

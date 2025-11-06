@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Manage Schedule{% endblock %}
+{% block content %}
+<div class="container card">
+  <div style="text-align:right; margin-bottom:15px;">
+    <a href="{{ url_for('nurse.dashboard') }}" class="btn btn-secondary">
+      ← Back to Dashboard
+    </a>
+  </div>
+  <h2>My Schedule</h2>
+  <form method="POST">
+    <label>Date:</label>
+    <input type="date" name="date" required>
+
+    <label>Time:</label>
+    <input type="time" name="time" required>
+
+    <button type="submit" class="btn-primary">Add Shift</button>
+  </form>
+
+  <h3>My Shifts</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for shift in shifts %}
+      <tr>
+        <td>{{ shift.date }}</td>
+        <td>{{ shift.time }}</td>
+      </tr>
+    {% else %}
+      <tr><td colspan="2">No shifts added yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+</div>
+{% endblock %}

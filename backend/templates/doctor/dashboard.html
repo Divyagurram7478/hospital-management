@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Doctor Dashboard{% endblock %}
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <aside class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse shadow-sm">
+      <div class="position-sticky pt-3">
+        <!-- Doctor Profile in Sidebar -->
+        <div class="d-flex align-items-center mb-4 p-2 border-bottom">
+          <img src="{{ url_for('static', filename='images/logo.png') }}" 
+               alt="Logo" class="rounded-circle border me-2" 
+               style="width:50px; height:50px; object-fit:cover;">
+          <div>
+            <h6 class="mb-0">{{ current_user.username }}</h6>
+            <small class="text-muted">{{ current_user.role|capitalize }}</small>
+          </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'doctor.dashboard' %}active{% endif %}" 
+               href="{{ url_for('doctor.dashboard') }}">
+              <i class="bi bi-speedometer2"></i> Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'doctor.doctor_appointments' %}active{% endif %}" 
+               href="{{ url_for('doctor.doctor_appointments') }}">
+              <i class="bi bi-calendar-check"></i> Appointments
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'doctor.patients' %}active{% endif %}" 
+               href="{{ url_for('doctor.patients') }}">
+              <i class="bi bi-people"></i> Patients
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'doctor.view_prescriptions' %}active{% endif %}" 
+               href="{{ url_for('doctor.view_prescriptions') }}">
+              <i class="bi bi-journal-medical"></i> Prescriptions
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'doctor.profile' %}active{% endif %}" 
+               href="{{ url_for('doctor.profile') }}">
+              <i class="bi bi-person-circle"></i> Profile
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.endpoint == 'doctor.salary' %}active{% endif %}" 
+               href="{{ url_for('doctor.salary') }}">
+              <i class="bi bi-cash-coin"></i> Salary
+            </a>
+          </li>
+          <li class="nav-item mt-3">
+            <a class="nav-link text-danger fw-semibold" href="{{ url_for('auth.logout') }}">
+              <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
+        <h2 class="fw-bold">Doctor Dashboard</h2>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary btn-sm">🔙 Back to Login</a>
+      </div>
+      <hr>
+
+      <!-- Dashboard Cards -->
+      <div class="row">
+        <!-- Appointments Card -->
+        <div class="col-md-4">
+          <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body text-center">
+              <i class="bi bi-calendar-check display-6 text-primary mb-2"></i>
+              <h5 class="card-title">Appointments</h5>
+              <p class="card-text">Manage all your upcoming appointments easily.</p>
+              <a href="{{ url_for('doctor.doctor_appointments') }}" class="btn btn-primary btn-sm">View</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Patients Card -->
+        <div class="col-md-4">
+          <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body text-center">
+              <i class="bi bi-people display-6 text-success mb-2"></i>
+              <h5 class="card-title">Patients</h5>
+              <p class="card-text">View your patients and add new prescriptions.</p>
+              <a href="{{ url_for('doctor.patients') }}" class="btn btn-success btn-sm">View</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prescriptions Card -->
+        <div class="col-md-4">
+          <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body text-center">
+              <i class="bi bi-journal-medical display-6 text-info mb-2"></i>
+              <h5 class="card-title">Prescriptions</h5>
+              <p class="card-text">Check all the prescriptions you have issued.</p>
+              <a href="{{ url_for('doctor.view_prescriptions') }}" class="btn btn-info btn-sm text-white">View</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+{% endblock %}

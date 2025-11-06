@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+
+    <!-- 🔙 Back to Dashboard button -->
+    <a href="{{ url_for('doctor.dashboard') }}" class="btn btn-secondary mb-3">
+        ⬅ Back to Dashboard
+    </a>
+
+    <h2>Prescriptions</h2>
+
+    {% if prescriptions %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Diagnosis</th>
+                    <th>Medicines</th>
+                    <th>Instructions</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in prescriptions %}
+                <tr>
+                    <td>{{ p.patient_name }}</td>
+                    <td>{{ p.diagnosis }}</td>
+                    <td>{{ p.medicines }}</td>
+                    <td>{{ p.instructions }}</td>
+                    <td>{{ p.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No prescriptions yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Nurse Profile{% endblock %}
+{% block content %}
+<a href="{{ url_for('nurse.dashboard') }}" class="back-btn">← Back to Dashboard</a>
+
+<div class="container">
+  <h3>My Profile</h3>
+  <form method="post" class="form-card">
+    <input name="name" class="form-control" value="{{ user.name }}" placeholder="Full Name" required>
+    <input name="email" class="form-control" value="{{ user.email }}" placeholder="Email" required>
+    <input name="phone" class="form-control" value="{{ user.phone }}" placeholder="Phone">
+    <input name="specialization" class="form-control" value="{{ user.address }}" placeholder="Specialization">
+    <div style="margin-top:8px">
+      <button class="btn btn-success">Save Changes</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

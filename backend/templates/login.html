@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="max-width:520px;margin:28px auto">
+  <div class="card">
+    <h2>Sign in {% if role %}as {{ role|capitalize }}{% endif %}</h2>
+
+    <!-- ✅ Flash messages specific to login -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="post">
+      <!-- ✅ Renamed field -->
+      <input type="hidden" name="expected_role" value="{{ role }}">
+
+      <div style="margin-top:12px">
+        <label>Username</label>
+        <input type="text" name="username" class="form-control form-control-lg" required />
+      </div>
+
+      <div style="margin-top:12px">
+        <label>Password</label>
+        <input type="password" name="password" class="form-control" required />
+      </div>
+
+      <div style="margin-top:14px; display:flex; gap:12px;">
+        <button type="submit" class="btn btn-primary">Login</button>
+        <a href="{{ url_for('auth.register', role=role) }}" class="btn btn-ghost">Register</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

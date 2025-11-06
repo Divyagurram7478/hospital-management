@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block title %}Book Appointment{% endblock %}
+{% block content %}
+
+<a href="{{ url_for('patient.dashboard') }}" class="back-btn">⬅ Back to Dashboard</a>
+
+<div class="card p-4">
+  <h3 class="mb-3">Book an Appointment</h3>
+
+  <!-- 🟩 Flash message area -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ 'success' if category == 'success' else 'info' }} mt-2">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  <!-- 🟩 END Flash message -->
+
+  <form method="post">
+    <!-- 🟩 Problem selection with "Other" option -->
+    <div class="form-group mb-3">
+      <label for="problem">Problem</label>
+      <select id="problem" name="problem" class="form-control" required onchange="toggleOtherProblem()">
+        <option value="">-- Select Problem --</option>
+        {% for p in problems %}
+          <option value="{{ p.name }}">{{ p.name }}</option>
+        {% endfor %}
+        <option value="other">Other</option> <!-- Added "Other" option -->
+      </select>
+
+      <!-- Hidden input for custom problem -->
+      <input
+        type="text"
+        id="other-problem"
+        name="other_problem"
+        class="form-control mt-2"
+        placeholder="Please specify your problem"
+        style="display:none;"
+      />
+    </div>
+
+    <!-- 🟩 JS to show/hide custom problem -->
+    <script>
+      function toggleOtherProblem() {
+        const select = document.getElementById("problem");
+        const otherInput = document.getElementById("other-problem");
+
+        if (select.value === "other") {
+          otherInput.style.display = "block";
+          otherInput.required = true;
+        } else {
+          otherInput.style.display = "none";
+          otherInput.required = false;
+        }
+      }
+    </script>
+
+    <!-- 🟩 Doctor dropdown (flexible for both data structures) -->
+    <div class="form-group mb-3">
+      <label for="doctor">Choose Doctor</label>
+      <select id="doctor" name="doctor" class="form-control" required>
+        <option value="">-- Select Doctor --</option>
+        {% for d in doctors %}
+          <option value="{{ d._id }}">
+            {% if d.profile and d.profile.first_name %}
+              {{ d.profile.first_name }} {{ d.profile.last_name }} — {{ d.profile.specialty }}
+            {% elif d.name %}
+              {{ d.name }} — {{ d.specialization }}
+            {% else %}
+              {{ d.username }}
+            {% endif %}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- 🗓️ Date + Time fields -->
+    <div class="form-row d-flex justify-content-between mb-3">
+      <div class="form-group w-50 me-2">
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" class="form-control" required>
+      </div>
+      <div class="form-group w-50">
+        <label for="time">Time</label>
+        <input type="time" id="time" name="time" class="form-control" required>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Book Appointment</button>
+  </form>
+</div>
+
+<!-- 🟩 Appointment history -->
+{% if appointments %}
+<div class="card mt-4 p-3">
+  <h4>My Appointments</h4>
+  <table class="table table-bordered table-striped mt-2">
+    <thead class="table-light">
+      <tr>
+        <th>Problem</th>
+        <th>Doctor</th>
+        <th>Specialization</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in appointments %}
+        {% set doctor = doctor_map.get(a.doctor_id) %}
+        <tr>
+          <td>{{ a.problem }}</td>
+          <td>
+            {% if doctor.profile and doctor.profile.first_name %}
+              {{ doctor.profile.first_name }} {{ doctor.profile.last_name }}
+            {% elif doctor.name %}
+              {{ doctor.name }}
+            {% else %}
+              {{ doctor.username }}
+            {% endif %}
+          </td>
+          <td>{{ doctor.profile.specialty if doctor.profile else doctor.specialization }}</td>
+          <td>{{ a.datetime.strftime('%Y-%m-%d') }}</td>
+          <td>{{ a.datetime.strftime('%H:%M') }}</td>
+          <td>{{ a.status|capitalize }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+{% endblock %}

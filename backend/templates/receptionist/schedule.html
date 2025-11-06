@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Manage Schedules{% endblock %}
+{% block content %}
+<a href="{{ url_for('receptionist.dashboard') }}" class="back-btn">← Back to Dashboard</a>
+
+<div class="container">
+  <h3>Manage Schedules</h3>
+  <form method="post" class="form-card">
+    <input name="doctor" class="form-control" placeholder="Doctor" required>
+    <input name="patient" class="form-control" placeholder="Patient" required>
+    <input type="date" name="date" class="form-control" required>
+    <input type="time" name="time" class="form-control" required>
+    <select name="status" class="form-control">
+      <option value="pending">Pending</option>
+      <option value="confirmed">Confirmed</option>
+      <option value="completed">Completed</option>
+    </select>
+    <div style="margin-top:8px">
+      <button class="btn btn-primary">Add Schedule</button>
+    </div>
+  </form>
+
+  <div class="card" style="margin-top:20px">
+    <h4>All Schedules</h4>
+    {% if schedules %}
+      <table class="table">
+        <thead><tr><th>Doctor</th><th>Patient</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for s in schedules %}
+            <tr>
+              <td>{{ s.doctor }}</td>
+              <td>{{ s.patient }}</td>
+              <td>{{ s.date }}</td>
+              <td>{{ s.time }}</td>
+              <td>{{ s.status }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="small-muted">No schedules yet</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

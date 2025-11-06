@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Nurse Profile{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="card shadow-lg p-4 rounded" style="max-width: 600px; margin: auto; background: #ffffff;">
+     <div style="text-align:right; margin-bottom:15px;">
+      <a href="{{ url_for('nurse.dashboard') }}" class="btn btn-secondary">
+        ← Back to Dashboard
+      </a>
+    </div>
+    <h2 class="text-center mb-4" style="color:#2c3e50;">👩‍⚕️ Nurse Profile</h2>
+
+    <form method="POST">
+      <div class="form-group mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" name="name" value="{{ user.name }}" class="form-control" required>
+      </div>
+
+      <div class="form-group mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" value="{{ user.email }}" class="form-control" required>
+      </div>
+
+      <div class="form-group mb-3">
+        <label class="form-label">Phone</label>
+        <input type="text" name="phone" value="{{ user.phone }}" class="form-control">
+      </div>
+
+      <div class="form-group mb-3">
+        <label class="form-label">Address</label>
+        <textarea name="address" class="form-control" rows="3">{{ user.address }}</textarea>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary px-4">💾 Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

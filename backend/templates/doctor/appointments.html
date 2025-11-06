@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+
+  <!-- Back to Dashboard Button -->
+  <div class="d-flex justify-content-end mb-3">
+    <a href="{{ url_for('doctor.dashboard') }}" class="btn btn-outline-primary btn-sm">
+      <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
+    </a>
+  </div>
+
+  <h2 class="text-center mb-4">Appointments</h2>
+
+  {% if appointments %}
+  <table class="table table-bordered text-center align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th>Patient Name</th>
+        <th>Date & Time</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for appt in appointments %}
+      <tr>
+        <td>{{ appt.patient_name }}</td>
+        <td>
+          {% if appt.datetime %}
+            {{ appt.datetime.strftime('%Y-%m-%d %H:%M') }}
+          {% else %}
+            Unknown
+          {% endif %}
+        </td>
+        <td>
+          <span class="badge 
+            {% if appt.status.lower() == 'accepted' %}bg-success
+            {% elif appt.status.lower() == 'rejected' %}bg-danger
+            {% else %}bg-warning text-dark{% endif %}">
+            {{ appt.status.capitalize() }}
+          </span>
+        </td>
+        <td>
+          {% if appt.status.lower() == 'pending' %}
+            <form action="{{ url_for('doctor.doctor_update_status', appt_id=appt._id) }}" method="POST" style="display:inline;">
+              <input type="hidden" name="status" value="Accepted">
+              <button type="submit" class="btn btn-success btn-sm">Accept</button>
+            </form>
+
+            <form action="{{ url_for('doctor.doctor_update_status', appt_id=appt._id) }}" method="POST" style="display:inline;">
+              <input type="hidden" name="status" value="Rejected">
+              <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+            </form>
+          {% else %}
+            <em>No actions available</em>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="text-center text-muted">No appointments found.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Receptionist Dashboard{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('auth.login') }}" class="back-btn">← Back to Login</a>
+
+<div class="dashboard container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" class="profile-avatar">
+      <div>
+        <div><strong>{{ current_user.username }}</strong></div>
+        <div class="small-muted">Receptionist</div>
+      </div>
+    </div>
+    <hr>
+    <a class="nav-item" href="{{ url_for('receptionist.dashboard') }}">Dashboard</a>
+    <a class="nav-item" href="{{ url_for('receptionist.profile') }}">Profile</a>
+    <a class="nav-item" href="{{ url_for('receptionist.schedule_page') }}">Schedules</a>
+    <a class="nav-item" href="{{ url_for('receptionist.salary_page') }}">Salary</a>
+    <a class="nav-item" href="{{ url_for('receptionist.call_logs_page') }}">Call Logs</a>
+  </aside>
+
+  <!-- Main content -->
+  <main class="content">
+    <h3>Schedules Overview</h3>
+    <div class="card">
+      {% if schedules %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Doctor</th>
+              <th>Patient</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for s in schedules %}
+              <tr>
+                <td>{{ s.doctor }}</td>
+                <td>{{ s.patient }}</td>
+                <td>{{ s.date }}</td>
+                <td>{{ s.time }}</td>
+                <td>{{ s.status }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="small-muted">No schedules available</p>
+      {% endif %}
+    </div>
+  </main>
+</div>
+{% endblock %}

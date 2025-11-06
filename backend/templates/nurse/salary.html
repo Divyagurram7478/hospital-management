@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Salary Details{% endblock %}
+{% block content %}
+<div class="container card p-4 mt-4">
+  <div style="text-align:right; margin-bottom:15px;">
+    <a href="{{ url_for('nurse.dashboard') }}" class="btn btn-secondary">
+      ← Back to Dashboard
+    </a>
+  </div>
+
+  <h2 class="mb-3">Salary Information</h2>
+
+  {% if salary and salary.salary %}
+    <div class="card shadow-sm p-3" style="background:#f8fafc;border-radius:12px;">
+      <p><strong>Monthly Salary:</strong> ₹{{ salary.salary }}</p>
+      <p><strong>Last Updated:</strong> {{ salary.updated_at or "—" }}</p>
+    </div>
+  {% else %}
+    <p>No salary record found.</p>
+  {% endif %}
+</div>
+{% endblock %}

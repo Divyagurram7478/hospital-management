@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Patient Dashboard{% endblock %}
+{% block content %}
+<div class="dashboard container">
+  <a href="{{ url_for('auth.login') }}" class="back-btn">⬅ Back to Login</a>
+  <aside class="sidebar">
+    <a class="nav-item" href="{{ url_for('patient.dashboard') }}">Dashboard</a>
+    <a class="nav-item" href="{{ url_for('patient.book_appointment') }}">Book Appointment</a>
+    <a class="nav-item" href="{{ url_for('patient.prescriptions') }}">Prescriptions</a>
+    <a class="nav-item" href="{{ url_for('patient.reports') }}">Reports</a>
+    <a class="nav-item" href="{{ url_for('patient.billing') }}">Billing</a>
+    <a class="nav-item" href="{{ url_for('patient.profile') }}">Profile</a>
+  </aside>
+
+  <main class="content">
+    <h3>My Appointments</h3>
+    <div class="card">
+      {% if appointments %}
+        <table class="table">
+          <thead><tr><th>Doctor</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            {% for a in appointments %}
+            <tr>
+              <td>{{ a.doctor }}</td>
+              <td>{{ a.datetime.strftime('%Y-%m-%d %H:%M') }}</td>
+              <td>{{ a.status }}</td>
+              <td>
+                {% if a.status != 'cancelled' %}
+                <form method="post" action="{{ url_for('patient.cancel_appointment', appt_id=a._id) }}">
+                  <button class="btn btn-danger btn-sm">Cancel</button>
+                </form>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>No appointments found.</p>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h4>Prescriptions</h4>
+      {% if prescriptions %}
+        <ul>
+          {% for p in prescriptions %}
+            <li>{{ p.details }} — <small>{{ p.issued_at }}</small></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No prescriptions yet.</p>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h4>Billing Info</h4>
+      {% if bills %}
+        <ul>
+          {% for b in bills %}
+            <li>Bill: ₹{{ b.amount }} — Status: {{ b.status }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No billing records yet.</p>
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h4>Reports</h4>
+      {% if reports %}
+        <ul>
+          {% for r in reports %}
+            <li>{{ r.report_type }} — Uploaded {{ r.date }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No reports uploaded.</p>
+      {% endif %}
+    </div>
+  </main>
+</div>
+{% endblock %}

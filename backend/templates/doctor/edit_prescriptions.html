@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Edit Prescription{% endblock %}
+{% block content %}
+
+<a href="{{ url_for('doctor.view_prescriptions') }}" class="back-btn">🔙 Back to Prescriptions</a>
+
+<div class="card">
+  <h3>✏️ Edit Prescription for {{ prescription.patient_name }}</h3>
+
+  <form method="POST">
+    <div class="form-group">
+      <label for="details">Prescription Details:</label>
+      <textarea name="details" id="details" class="form-control" rows="6" required>{{ prescription.details }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-success mt-3">💾 Save Changes</button>
+  </form>
+</div>
+
+{% endblock %}

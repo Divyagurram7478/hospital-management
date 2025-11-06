@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Entries / Biometric Logs{% endblock %}
+{% block content %}
+<div class="container">
+  <div style="margin-bottom: 10px;">
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">&larr; Back to Dashboard</a>
+  </div>
+  <h3>Recent Entries</h3>
+  <table class="table">
+    <thead><tr><th>User</th><th>Action</th><th>Time</th></tr></thead>
+    <tbody>
+      {% for log in logs %}
+        <tr>
+          <td>{{ log.user }}</td>
+          <td>{{ log.action }}</td>
+          <td>{{ log.timestamp }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

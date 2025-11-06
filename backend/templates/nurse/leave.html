@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Leave Requests{% endblock %}
+{% block content %}
+<div class="container card">
+  <div style="text-align:right; margin-bottom:15px;">
+    <a href="{{ url_for('nurse.dashboard') }}" class="btn btn-secondary">
+      ← Back to Dashboard
+    </a>
+  </div>
+  <h2>Apply for Leave</h2>
+  <form method="POST">
+    <label>Date:</label>
+    <input type="date" name="date" required>
+
+    <label>Reason:</label>
+    <textarea name="reason" required></textarea>
+
+    <button type="submit" class="btn-primary">Submit Leave Request</button>
+  </form>
+
+  <h3>My Requests</h3>
+  <table class="styled-table">
+    <thead>
+      <tr><th>Date</th><th>Reason</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      {% for req in requests %}
+        <tr>
+          <td>{{ req.date }}</td>
+          <td>{{ req.reason }}</td>
+          <td>{{ req.status }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

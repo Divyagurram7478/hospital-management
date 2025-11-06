@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Manage Users{% endblock %}
+{% block content %}
+<div class="container">
+   <div style="margin-bottom: 10px;">
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">&larr; Back to Dashboard</a>
+  </div>
+  <h3>Manage Users</h3>
+
+  <form method="POST" class="card" style="margin-bottom:20px">
+    <h4>Create User</h4>
+    <input type="hidden" name="action" value="create">
+    <div class="form-group"><label>Username</label><input type="text" name="username" required class="form-control"></div>
+    <div class="form-group"><label>Email</label><input type="email" name="email" required class="form-control"></div>
+    <div class="form-group"><label>Role</label>
+      <select name="role" class="form-control">
+        <option value="doctor">Doctor</option>
+        <option value="patient">Patient</option>
+        <option value="nurse">Nurse</option>
+        <option value="receptionist">Receptionist</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Salary</label><input type="number" name="salary" value="0" class="form-control"></div>
+    <button type="submit" class="btn btn-primary">Add</button>
+  </form>
+
+  <h4>Existing Users</h4>
+  <table class="table">
+    <thead><tr><th>Username</th><th>Email</th><th>Role</th><th>Salary</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for u in users %}
+        <tr>
+          <form method="POST" style="display:flex; gap:8px; align-items:center;">
+            <td><input type="text" name="username" value="{{ u.username }}" class="form-control"></td>
+            <td><input type="email" name="email" value="{{ u.email }}" class="form-control"></td>
+            <td>
+              <select name="role" class="form-control">
+                <option value="doctor" {% if u.role=="doctor" %}selected{% endif %}>Doctor</option>
+                <option value="patient" {% if u.role=="patient" %}selected{% endif %}>Patient</option>
+                <option value="nurse" {% if u.role=="nurse" %}selected{% endif %}>Nurse</option>
+                <option value="receptionist" {% if u.role=="receptionist" %}selected{% endif %}>Receptionist</option>
+              </select>
+            </td>
+            <td><input type="number" name="salary" value="{{ u.salary|default(0) }}" class="form-control"></td>
+            <td>
+              <input type="hidden" name="user_id" value="{{ u._id }}">
+              <button type="submit" name="action" value="update" class="btn btn-sm btn-success">Update</button>
+              <button type="submit" name="action" value="delete" class="btn btn-sm btn-danger">Delete</button>
+            </td>
+          </form>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

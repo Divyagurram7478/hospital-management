@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="dashboard container">
+  <aside class="sidebar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" class="profile-avatar">
+      <div>
+        <div><strong>{{ current_user.username }}</strong></div>
+        <div class="small-muted">Admin</div>
+      </div>
+    </div>
+    <hr>
+    <a class="nav-item" href="{{ url_for('admin.dashboard') }}">Overview</a>
+    <a class="nav-item" href="{{ url_for('admin.manage_users') }}">Manage Users</a>
+    <a class="nav-item" href="{{ url_for('admin.rules') }}">Rulebook</a>
+    <a class="nav-item" href="{{ url_for('admin.entries') }}">Entries</a>
+    <a class="nav-item" href="{{ url_for('admin.profile') }}">Profile</a>
+  </aside>
+
+  <main class="content">
+    <div style="margin-bottom: 10px;">
+      <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">&larr; Back to Login</a>
+    </div>
+    <h3>Overview</h3>
+    <div class="card">
+      <div style="display:flex;gap:24px">
+        <div><strong>{{ counts.doctors }}</strong><div class="small-muted">Doctors</div></div>
+        <div><strong>{{ counts.patients }}</strong><div class="small-muted">Patients</div></div>
+        <div><strong>{{ counts.nurses }}</strong><div class="small-muted">Nurses</div></div>
+        <div><strong>{{ counts.receptionists }}</strong><div class="small-muted">Receptionists</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h4>Revenue Analytics</h4>
+      <select id="graph-select" onchange="updateGraph()" style="margin-bottom:12px;">
+        <option value="line">Line Chart</option>
+        <option value="bar">Bar Chart</option>
+        <option value="pie">Pie Chart</option>
+      </select>
+
+      <!-- Inject revenue JSON safely into DOM -->
+      <script id="revenue-data" type="application/json">{{ revenue | tojson | safe }}</script>
+
+      <canvas id="revenueChart" style="max-height:300px;"></canvas>
+    </div>
+
+    <div class="card">
+      <h4>Doctor Salaries</h4>
+      <ul>
+        {% for doc in salaries %}
+          <li>{{ doc.username }} - ${{ doc.salary|default(0) }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="card">
+      <h4>Users</h4>
+      <table class="table">
+        <thead><tr><th>Username</th><th>Role</th><th>Email</th></tr></thead>
+        <tbody>
+          {% for u in users %}
+            <tr><td>{{ u.username }}</td><td>{{ u.role }}</td><td>{{ u.email }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Read JSON injected into a script tag (avoids Jinja-in-JS lint problems)
+  const revenueRawText = document.getElementById('revenue-data')?.textContent || '[]';
+  let revenueRaw = [];
+  try {
+    revenueRaw = JSON.parse(revenueRawText);
+  } catch (e) {
+    revenueRaw = [];
+    console.warn("Could not parse revenue JSON", e);
+  }
+
+  const labels = revenueRaw.map(r => r.label);
+  const totals = revenueRaw.map(r => r.total);
+
+  // Random colors for pie chart slices
+  const randomColors = labels.map(() =>
+    `hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)`
+  );
+
+  // Base chart data
+  const revenueChartData = {
+    labels: labels,
+    datasets: [{
+      label: "Revenue",
+      data: totals,
+      backgroundColor: randomColors,
+      borderColor: "red",
+      borderWidth: 2
+    }]
+  };
+
+  let chart;
+
+  function updateGraph() {
+    const ctx = document.getElementById("revenueChart");
+    if (chart) chart.destroy();
+
+    const type = document.getElementById("graph-select").value;
+
+    // Deep copy to prevent mutation across chart types
+    const dataCopy = JSON.parse(JSON.stringify(revenueChartData));
+
+    if (type === "line") {
+      dataCopy.datasets[0].borderColor = "red";
+      dataCopy.datasets[0].backgroundColor = "rgba(255, 0, 0, 0.2)";
+      dataCopy.datasets[0].tension = 0.3;
+    } else if (type === "bar") {
+      dataCopy.datasets[0].backgroundColor = "rgba(255, 165, 0, 0.7)"; // orange
+      dataCopy.datasets[0].borderColor = "rgba(255, 165, 0, 1)";
+    } else if (type === "pie") {
+      // already using random colors
+    }
+
+    chart = new Chart(ctx, {
+      type: type,
+      data: dataCopy,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: "top" },
+          title: { display: false }
+        }
+      }
+    });
+  }
+
+  // Initialize default chart
+  updateGraph();
+</script>
+{% endblock %}

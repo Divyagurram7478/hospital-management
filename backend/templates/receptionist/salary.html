@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Nurse Salary{% endblock %}
+{% block content %}
+<a href="{{ url_for('nurse.dashboard') }}" class="back-btn">← Back to Dashboard</a>
+
+<div class="container">
+  <h3>Salary Details</h3>
+  {% if salary %}
+    <div class="card">
+      <p><strong>Base Salary:</strong> {{ salary.base }} </p>
+      <p><strong>Bonuses:</strong> {{ salary.bonus }} </p>
+      <p><strong>Total:</strong> {{ salary.total }} </p>
+    </div>
+  {% else %}
+    <p class="small-muted">Salary details not available</p>
+  {% endif %}
+</div>
+{% endblock %}

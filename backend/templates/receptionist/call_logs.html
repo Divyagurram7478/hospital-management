@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Receptionist - Call Logs{% endblock %}
+{% block content %}
+<a href="{{ url_for('nurse.dashboard') }}" class="back-btn">← Back to Dashboard</a>
+
+<div class="dashboard container">
+  <aside class="sidebar">
+    <div style="display:flex;align-items:center;gap:12px">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" class="profile-avatar">
+      <div>
+        <div><strong>{{ current_user.username }}</strong></div>
+        <div class="small-muted">Receptionist</div>
+      </div>
+    </div>
+    <hr>
+    <a class="nav-item" href="{{ url_for('receptionist.dashboard') }}">Dashboard</a>
+    <a class="nav-item active" href="{{ url_for('receptionist.call_logs_page') }}">Call Logs</a>
+  </aside>
+
+  <main class="content">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <h3>Log a Call</h3>
+    <div class="card">
+      <form method="post">
+        <input name="caller_name" class="form-control" placeholder="Caller name" required>
+        <input name="phone" class="form-control" placeholder="Phone number" required>
+        <textarea name="note" class="form-control" placeholder="Note"></textarea>
+        <div style="margin-top:8px"><button class="btn btn-primary">Log Call</button></div>
+      </form>
+    </div>
+
+    <h3 style="margin-top:20px">Recent Calls</h3>
+    <div class="card">
+      {% if logs %}
+        <ul>
+          {% for l in logs %}
+            <li>
+              <strong>{{ l.caller_name }}</strong> — {{ l.phone }}
+              <div class="small-muted">{{ l.note }}</div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="small-muted">No calls logged yet.</p>
+      {% endif %}
+    </div>
+  </main>
+</div>
+{% endblock %}

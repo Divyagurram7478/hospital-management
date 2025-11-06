@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <a href="{{ url_for('patient.dashboard') }}" class="btn btn-link text-decoration-none mb-3">
+        ← Back to Dashboard
+    </a>
+
+    <h2 class="text-center mb-4">💊 My Prescriptions</h2>
+
+    {% if prescriptions and prescriptions|length > 0 %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle text-center shadow-sm">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Date</th>
+                        <th>Doctor Name</th>
+                        <th>Diagnosis</th>
+                        <th>Medicines</th>
+                        <th>Instructions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in prescriptions %}
+                    <tr>
+                        <td>{{ p.date or 'N/A' }}</td>
+                        <td>{{ p.doctor_name or 'N/A' }}</td>
+                        <td>{{ p.diagnosis or 'N/A' }}</td>
+                        <td style="white-space: pre-line;">{{ p.medicines or 'N/A' }}</td>
+                        <td style="white-space: pre-line;">{{ p.instructions or 'N/A' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info text-center shadow-sm">
+            No prescriptions available yet.
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

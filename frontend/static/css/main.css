@@ -1,0 +1,340 @@
+/* main.css - base styles for corporate aesthetic (original content preserved) */
+:root{
+  --primary:#0B6E4F;
+  --accent:#F4B400;
+  --muted:#6b7280;
+  --bg: #f7fafc;
+  --card:#ffffff;
+  --glass: rgba(255,255,255,0.75);
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(11,110,79,0.08);
+  --font-stack: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:var(--font-stack);
+  margin:0;
+  background: linear-gradient(180deg,#f6fbf6 0%, #f7fafc 100%);
+  color:#0f172a;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* Container */
+.container{
+  width: min(1180px, 92%);
+  margin: 28px auto;
+}
+
+/* Header */
+.header{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:18px 24px;
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+.header img.logo{height:56px; width:auto}
+.header .title{
+  font-size:20px;
+  font-weight:700;
+  letter-spacing:0.2px;
+}
+
+/* Hero */
+.hero{
+  display:flex;
+  gap:32px;
+  align-items:center;
+  margin-top:22px;
+  padding:28px;
+  border-radius:16px;
+  background: linear-gradient(90deg, rgba(11,110,79,0.06), rgba(244,180,0,0.02));
+  box-shadow: 0 8px 30px rgba(12,44,22,0.03);
+}
+
+.hero .left{flex:1}
+.hero .right{flex:1; min-height:200px}
+
+/* Buttons */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:10px 16px;
+  border-radius:10px;
+  border: none;
+  cursor:pointer;
+  font-weight:600;
+}
+.btn-primary { background:var(--primary); color:#fff; }
+.btn-ghost { background:transparent; color:var(--primary); border:1px solid rgba(11,110,79,0.08); }
+
+/* Role cards */
+.role-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:16px;
+  margin-top:18px;
+}
+.role-card{
+  background:var(--card);
+  padding:14px;
+  border-radius:12px;
+  box-shadow:var(--shadow);
+  text-align:center;
+}
+.role-card h4{margin:10px 0 0 0}
+
+/* Dashboard base */
+.dashboard{
+  display:flex;
+  gap:18px;
+  margin-top:20px;
+}
+.sidebar{
+  width:260px;
+  background:var(--card);
+  border-radius:12px;
+  padding:12px;
+  box-shadow:var(--shadow);
+  height:min-content;
+}
+.content{
+  flex:1;
+  background:var(--card);
+  padding:18px;
+  border-radius:12px;
+  box-shadow:var(--shadow);
+}
+
+/* Nav items */
+.nav-item{ display:block; padding:10px; color:var(--muted); text-decoration:none; border-radius:8px; margin-bottom:6px; }
+.nav-item:hover{ background:rgba(11,110,79,0.04); color:var(--primary) }
+
+/* Cards inside content */
+.card{
+  background:var(--glass);
+  padding:14px;
+  border-radius:10px;
+  margin-bottom:12px;
+  box-shadow: 0 6px 20px rgba(10,20,10,0.02);
+}
+
+/* Table */
+.table{width:100%; border-collapse:collapse}
+.table th, .table td {padding:10px; text-align:left; border-bottom:1px solid #eef2f6}
+
+/* Forms */
+.form-row{display:flex; gap:12px}
+.form-control{display:block; width:100%; padding:8px 10px; border-radius:8px; border:1px solid #e6eef5; background:#fff}
+
+/* Footer */
+.footer{ text-align:center; padding:12px; color:var(--muted); margin-top:24px}
+
+/* Responsive */
+@media (max-width:900px){
+  .dashboard{flex-direction:column}
+  .sidebar{width:100%}
+}
+
+/* ========================================================
+   Additions & refinements (non-destructive enhancements)
+   - Alerts, header nav, profile button, login card, map
+   - Accessibility focus, responsive tweaks
+   ======================================================== */
+
+/* Header: space for right-side actions (profile/logout) */
+.header .actions {
+  margin-left: auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.header .actions a, .header .actions button {
+  text-decoration:none;
+  padding:8px 12px;
+  border-radius:8px;
+  border:1px solid transparent;
+  background:transparent;
+  color:var(--primary);
+  font-weight:600;
+}
+.header .actions .btn-outline-secondary {
+  background:transparent;
+  border-color: rgba(0,0,0,0.08);
+  color: #374151;
+  padding:8px 12px;
+  border-radius:8px;
+}
+
+/* Navigation (global) */
+nav ul { list-style:none; margin:0; padding:0; display:flex; gap:12px; align-items:center; }
+nav a { color:var(--muted); text-decoration:none; padding:6px 8px; border-radius:6px; }
+nav a:hover { color:var(--primary); background: rgba(11,110,79,0.03); }
+
+/* Login/Register card polishing */
+.auth-wrapper { max-width:520px; margin:28px auto; }
+.login-card {
+  border-radius:10px;
+  padding:22px;
+  background:var(--card);
+  box-shadow: 0 10px 30px rgba(2,6,23,0.06);
+}
+.login-card h2{ margin:0 0 8px 0; font-size:28px; }
+.login-card .form-control { background:#fbfdff; border:1px solid #e9f1f4; }
+
+/* Flash / Alerts */
+.alert {
+  padding:14px 18px;
+  border-radius:10px;
+  margin-bottom:18px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.alert .message { flex:1; }
+.alert .close {
+  background:transparent;
+  border:none;
+  font-size:18px;
+  color:rgba(0,0,0,0.35);
+  cursor:pointer;
+}
+.alert-info { background: #E8F8FF; color:#075985; border:1px solid rgba(3,105,161,0.06); }
+.alert-success { background: #ECFDF5; color:#065F46; border:1px solid rgba(6,95,70,0.06); }
+.alert-danger { background: #FEF2F2; color:#991B1B; border:1px solid rgba(153,27,27,0.06); }
+
+/* Button variants */
+.btn-outline {
+  background:transparent;
+  border:1px solid rgba(11,110,79,0.08);
+  color:var(--primary);
+  padding:8px 12px;
+  border-radius:8px;
+}
+.btn-danger {
+  background:#DC2626; color:#fff; padding:8px 12px; border-radius:8px;
+}
+
+/* Small helper text */
+.small-muted{ color:var(--muted); font-size:13px }
+
+/* Profile avatar fallback */
+.profile-avatar{
+  height:64px; width:64px; border-radius:12px; object-fit:cover; border:2px solid rgba(255,255,255,0.6);
+  background: linear-gradient(180deg, #f8fafc, #fff); display:inline-block;
+}
+
+/* Map embed container for consistent sizing */
+.map-embed {
+  width:100%;
+  height:300px;
+  border-radius:10px;
+  overflow:hidden;
+  background: linear-gradient(180deg,#eef9f2, #ffffff);
+  box-shadow: 0 6px 18px rgba(11,110,79,0.04);
+}
+.map-embed iframe { width:100%; height:100%; border:0; display:block; }
+
+/* Table action buttons */
+.table .action-btn {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 8px;
+  border-radius:8px;
+  border:1px solid rgba(15,23,42,0.04);
+  background:#fff;
+  cursor:pointer;
+}
+.table .action-btn:hover { box-shadow: 0 6px 18px rgba(2,6,23,0.04); }
+
+/* Cards: meta & headers */
+.card h3, .card h4 { margin:0 0 8px 0; }
+.card .meta { color:var(--muted); font-size:13px }
+
+/* Form grouping */
+.form-row-single { display:block; margin-bottom:12px; }
+.form-row .form-control { min-height:44px; }
+
+/* Tiny helper grid used in profile forms */
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:640px){ .grid-2 { grid-template-columns:1fr } }
+
+/* Accessibility: focus states */
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+  outline: 3px solid rgba(11,110,79,0.12);
+  outline-offset: 2px;
+}
+
+/* Notifications (toast) */
+.toast {
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:var(--card);
+  border-radius:10px;
+  padding:12px 16px;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.08);
+  z-index:9999;
+}
+
+/* Empty state */
+.empty {
+  text-align:center;
+  padding:28px;
+  border-radius:12px;
+  background:linear-gradient(180deg,#fff,#fbfffc);
+  color:var(--muted);
+}
+
+/* Footer sticky polish */
+.footer{ text-align:center; padding:18px; color:var(--muted); margin-top:28px; font-size:14px; }
+
+/* Improve spacing inside dashboard content */
+.content .card { margin-bottom:16px; }
+
+/* Role badges used in sidebar */
+.sidebar .role-badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:10px;
+  font-weight:700;
+  color:#fff;
+  font-size:13px;
+}
+.role-admin{ background:#0B6E4F }
+.role-doctor{ background:#0b4d9a }
+.role-patient{ background:#8a3ffc }
+.role-nurse{ background:#ff7a59 }
+.role-reception{ background:#f4b400 }
+
+/* Ensure images inside cards scale and don't overflow */
+.card img, .sidebar img { max-width:100%; height:auto; border-radius:8px; }
+
+/* Small-screen tweaks */
+@media (max-width:480px){
+  .header { padding:14px; gap:10px; }
+  .header img.logo{ height:44px }
+  .hero { flex-direction:column; padding:18px; gap:16px; }
+  .btn { padding:8px 12px; font-size:14px }
+}
+
+/* form submit actions: separate login/register buttons so server can distinguish */
+.form-actions { display:flex; gap:12px; align-items:center; margin-top:12px; }
+
+/* subtle divider */
+.hr-subtle { height:1px; background:#eef6f2; margin:12px 0; border-radius:2px; }
+
+/* maintain legacy class names just in case templates use them */
+.alert-danger { background: #FEE2E2; color:#991B1B; border:1px solid rgba(153,27,27,0.06); }
+.alert-success { background: #ECFDF5; color:#065F46; border:1px solid rgba(6,95,70,0.06); }
+.alert-info { background: #E8F8FF; color:#075985; border:1px solid rgba(3,105,161,0.06); }
+

@@ -1,0 +1,11 @@
+# Ignore environment and local files
+.env
+__pycache__/
+*.pyc
+venv/
+.env.bak
+.DS_Store
+
+# Ignore IDE settings
+.vscode/
+.idea/
