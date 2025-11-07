@@ -65,7 +65,15 @@ def book_appointment():
         suggested_specialist = specialist_map.get(problem, 'General Physician')
 
         appointment_datetime = datetime.datetime.fromisoformat(f"{date}T{time}")
-
+        # 🕒 Check if the doctor already has an accepted appointment at this time
+        existing_appt = db.appointments.find_one({
+        "doctor_id": ObjectId(doctor_id),
+        "datetime": appointment_datetime,
+        "status": "accepted"
+       })
+        if existing_appt:
+            flash("❌ This time slot is already booked. Please choose another time.", "warning")
+            return redirect(url_for("patient.book_appointment"))
         appt = {
             'problem': problem,
             'doctor_id': ObjectId(doctor_id),
