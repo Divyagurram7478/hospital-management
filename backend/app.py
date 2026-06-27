@@ -13,9 +13,8 @@ def create_app():
     # Setup MongoDB client and attach to app
     client = MongoClient(app.config['MONGO_URI'])
     app.db_client = client
-    app.db = client.get_default_database()
+    app.db = client["hospitalDB"]
     print("✅ Connected to MongoDB Atlas successfully!")
-
     # Flask-Login
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
